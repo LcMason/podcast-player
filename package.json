@@ -1,0 +1,26 @@
+{
+  "name": "podcast-player",
+  "version": "1.0.0",
+  "description": "Podcast Player to listen to podcasts",
+  "homepage": "https://github.com/LcMason/podcast-player#readme",
+  "bugs": {
+    "url": "https://github.com/LcMason/podcast-player/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LcMason/podcast-player.git"
+  },
+  "license": "ISC",
+  "author": "LcMason",
+  "type": "module",
+  "main": "script.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "crypto-js": "^4.2.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "node-fetch": "^2.7.0"
+  }
+}
