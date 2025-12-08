@@ -1,31 +1,111 @@
-// Navigation --------------------------------------------------------//
-const searchLink = document.getElementById("searchLink");
-const listenLink = document.getElementById("listenLink");
-const searchContainer = document.querySelector(".search-container");
-const mainContainer = document.querySelector(".main-container");
-const playerContainer = document.querySelector(".player-container");
-const queueContainer = document.querySelector(".queue");
+document.addEventListener("DOMContentLoaded", () => {
+  const searchHistory = document.getElementById("searchHistory");
+  const searchInput = document.getElementById("searchInput");
+  const searchButton = document.getElementById("searchButton");
+  const resetButton = document.getElementById("resetButton");
 
-searchLink.addEventListener("click", navigateToSearch);
-listenLink.addEventListener("click", navigateToPlayer);
+  //   Reset search history
+  function resetHistory() {
+    searchHistory.innerText = "";
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "Select a Previous Search";
+    searchHistory.appendChild(option);
+  }
 
-function navigateToSearch() {
-  searchContainer.style.display = "flex";
-  mainContainer.style.display = "flex";
-  playerContainer.style.display = "none";
-  queueContainer.style.display = "none";
-  searchLink.classList.add("selected");
-  listenLink.classList.remove("selected");
-}
+  // Load search history from local storage
+  function loadSearchHistory() {
+    resetHistory();
+    const savedSearches =
+      JSON.parse(localStorage.getItem("searchHistory")) || [];
+    savedSearches.forEach((searchTerm) => {
+      const option = document.createElement("option");
+      option.value = searchTerm;
+      option.textContent = searchTerm;
+      searchHistory.appendChild(option);
+    });
+  }
 
-function navigateToPlayer() {
-  searchContainer.style.display = "none";
-  mainContainer.style.display = "none";
-  playerContainer.style.display = "flex";
-  queueContainer.style.display = "flex";
-  listenLink.classList.add("selected");
-  searchLink.classList.remove("selected");
-}
+  // Save the search history to local storage
+  function saveSearchHistory(searchTerm) {
+    let savedSearches = JSON.parse(localStorage.getItem("searchHistory")) || [];
+    if (!savedSearches.includes(searchTerm)) {
+      savedSearches.push(searchTerm);
+      localStorage.setItem("searchHistory", JSON.stringify(savedSearches));
+    }
+  }
+
+  //   Event listener for drop down change
+  searchHistory.addEventListener("change", () => {
+    const selectedSearch = searchHistory.value;
+    if (selectedSearch) {
+      searchInput.value = selectedSearch;
+      searchPodcasts();
+    }
+  });
+
+  // Event Listener for searchButton, Input
+  searchButton.addEventListener("click", searchPodcasts);
+  searchInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+      searchPodcasts();
+    }
+  });
+
+  // Event Listener to reset search input
+  searchInput.addEventListener("focus", () => {
+    searchInput.value = "";
+  });
+
+  //   Event listener for reset button
+  resetButton.addEventListener('click', () => {
+    localStorage.removeItem("searchHistory");
+    resetHistory();
+    searchInput.valu = "";
+  });
+
+  // Load search history when the page loads
+  loadSearchHistory();
+
+  // Search Podcasts
+  function searchPodcasts() {
+    const searchTerm = searchInput.value.trim();
+    if (searchTerm) {
+      console.log("Searched", searchTerm);
+      saveSearchHistory(searchTerm);
+      loadSearchHistory();
+    }
+  }
+
+  // Navigation --------------------------------------------------------//
+  const searchLink = document.getElementById("searchLink");
+  const listenLink = document.getElementById("listenLink");
+  const searchContainer = document.querySelector(".search-container");
+  const mainContainer = document.querySelector(".main-container");
+  const playerContainer = document.querySelector(".player-container");
+  const queueContainer = document.querySelector(".queue");
+
+  searchLink.addEventListener("click", navigateToSearch);
+  listenLink.addEventListener("click", navigateToPlayer);
+
+  function navigateToSearch() {
+    searchContainer.style.display = "flex";
+    mainContainer.style.display = "flex";
+    playerContainer.style.display = "none";
+    queueContainer.style.display = "none";
+    searchLink.classList.add("selected");
+    listenLink.classList.remove("selected");
+  }
+
+  function navigateToPlayer() {
+    searchContainer.style.display = "none";
+    mainContainer.style.display = "none";
+    playerContainer.style.display = "flex";
+    queueContainer.style.display = "flex";
+    listenLink.classList.add("selected");
+    searchLink.classList.remove("selected");
+  }
+});
 
 // const image = document.querySelector("img");
 // const title = document.getElementById("title");
