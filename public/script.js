@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Load search history from local storage
   function loadSearchHistory() {
     resetHistory();
-    const savedSearches =
-      JSON.parse(localStorage.getItem("searchHistory")) || [];
+    const savedSearches = JSON.parse(localStorage.getItem("searchHistory")) || [];
+
     savedSearches.forEach((searchTerm) => {
       const option = document.createElement("option");
       option.value = searchTerm;
@@ -28,12 +28,26 @@ document.addEventListener("DOMContentLoaded", () => {
       searchHistory.appendChild(option);
     });
   }
+  
+  // Normalize Search List
+    // function normalizeTerm(searchTerm) {
+    //   return searchTerm.trim().toLowerCase()
+    // }
+
+    // Formatter function
+  //  function formatDisplay(searchTerm) {
+  //   return searchTerm.replace(/\b\w/g, c => c.toUpperCase())
+  //  }
 
   // Save the search history to local storage
   function saveSearchHistory(searchTerm) {
+
+
     let savedSearches = JSON.parse(localStorage.getItem("searchHistory")) || [];
+
     if (!savedSearches.includes(searchTerm)) {
       savedSearches.push(searchTerm);
+  
       localStorage.setItem("searchHistory", JSON.stringify(savedSearches));
     }
   }
@@ -64,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
   resetButton.addEventListener("click", () => {
     localStorage.removeItem("searchHistory");
     resetHistory();
-    searchInput.valu = "";
+    searchInput.value = "";
   });
 
   // Load search history when the page loads
