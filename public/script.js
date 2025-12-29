@@ -28,18 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
       searchHistory.appendChild(option);
     });
   }
-  
-  // Normalize Search List
-    // function normalizeTerm(searchTerm) {
-    //   return searchTerm.trim().toLowerCase()
-    // }
 
-    // Formatter function
-  //  function formatDisplay(searchTerm) {
-  //   return searchTerm.replace(/\b\w/g, c => c.toUpperCase())
-  //  }
-
-  // Save the search history to local storage
   function saveSearchHistory(searchTerm) {
 
 
